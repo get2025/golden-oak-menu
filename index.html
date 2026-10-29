@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Golden Oak · QR Dining Experience</title>
+<meta name="theme-color" content="#0d0a08">
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --serif:'Playfair Display',Georgia,serif; --sans:'Inter',system-ui,sans-serif;
+  --gold:#ffd25a; --gold2:#e8a82e; --radius:20px;
+}
+[data-theme="dark"]{
+  --bg:#0d0a08; --bg2:#1a110e; --card:#15110f; --card2:#1f1a17; --text:#f4ecdc; --muted:#a79d8c;
+  --accent:#ffd25a; --accent-ink:#1a1204; --line:#e8a82e; --line-soft:rgba(232,168,46,.28);
+  --glow:radial-gradient(900px 500px at 70% -10%,rgba(232,168,46,.12),transparent 60%),linear-gradient(180deg,#0d0a08,#1a0f0d);
+  --shadow:0 12px 40px rgba(0,0,0,.55);
+}
+[data-theme="light"]{
+  --bg:#fbf6ec; --bg2:#f2e8d3; --card:#fffdf8; --card2:#f6eddb; --text:#2a1d10; --muted:#7a6a55;
+  --accent:#c58a10; --accent-ink:#fffaf0; --line:#c58a10; --line-soft:rgba(197,138,16,.35);
+  --glow:radial-gradient(900px 500px at 70% -10%,rgba(232,168,46,.22),transparent 60%),linear-gradient(180deg,#fbf6ec,#f3e9d4);
+  --shadow:0 12px 34px rgba(120,80,10,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%}
+body{font-family:var(--sans);background:var(--glow) fixed;background-color:var(--bg);color:var(--text);line-height:1.45;transition:background-color .3s,color .3s}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
+header.top{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 78%,transparent);border-bottom:1px solid var(--line-soft)}
+header.top .wrap{display:flex;align-items:center;gap:12px;height:60px}
+.brand{font-size:12px;letter-spacing:.14em;font-weight:700;color:var(--accent);text-transform:uppercase}
+.brand small{display:block;color:var(--muted);font-weight:500;letter-spacing:.1em;font-size:10px}
+.sp{flex:1}
+.icon-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--line-soft);display:grid;place-items:center;font-size:18px;transition:.2s}
+.icon-btn:hover{border-color:var(--line);transform:translateY(-1px)}
+.back{display:none;font-weight:600;font-size:14px;color:var(--accent);padding:8px 4px}
+.back.show{display:block}
+h1,h2,h3,.serif{font-family:var(--serif)}
+.screen{display:none;padding:26px 0 120px;animation:fade .35s ease}
+.screen.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:12px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;font-weight:700}
+.muted{color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 22px;border-radius:16px;font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;transition:.2s}
+.btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1204;box-shadow:0 6px 20px rgba(232,168,46,.3)}
+.btn.primary:hover{transform:translateY(-2px)}
+.btn.ghost{border:1.5px solid var(--line);color:var(--text)}
+.btn.ghost:hover{background:var(--line-soft)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+
+/* landing */
+.landing{max-width:460px;margin:0 auto;text-align:center}
+.landing .hero{padding:26px 0 22px}
+.landing h1{font-size:clamp(34px,8vw,48px);color:var(--accent);line-height:1.1}
+.landing .tag{margin-top:8px;font-size:12px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.landing .intro{margin:14px auto 0;color:var(--muted);font-size:14px}
+.opts{display:grid;gap:12px;margin-top:22px}
+.opt{display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:var(--radius);border:1.5px solid var(--line-soft);background:var(--card);text-align:left;transition:.2s;box-shadow:var(--shadow)}
+.opt:hover{border-color:var(--line);transform:translateY(-2px)}
+.opt b.n{color:var(--accent);font-size:14px;width:24px}
+.opt span.t{font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;flex:1}
+.opt i{font-style:normal;color:var(--muted)}
+.rule{margin-top:22px;padding:16px;border:1px dashed var(--line-soft);border-radius:var(--radius);font-size:12.5px;color:var(--muted)}
+.staff-link{display:inline-block;margin-top:26px;font-size:12px;color:var(--muted);text-decoration:underline}
+
+/* menu */
+.menu-head{display:flex;flex-wrap:wrap;align-items:end;gap:10px;justify-content:space-between}
+.menu-head h2{font-size:clamp(28px,5vw,40px)}
+.chips{display:flex;gap:10px;overflow-x:auto;padding:16px 2px 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:11px 18px;border-radius:16px;border:1.5px solid var(--line);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;transition:.2s}
+.chip.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#1a1204;border-color:transparent}
+.tools{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 6px}
+.search{flex:1;min-width:200px;display:flex;align-items:center;gap:10px;padding:0 16px;height:46px;border-radius:14px;background:var(--card);border:1.5px solid var(--line-soft)}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--text);font:inherit;font-size:14px}
+.filter{height:46px;padding:0 16px;border-radius:14px;border:1.5px solid var(--line-soft);font-size:12px;font-weight:600;background:var(--card)}
+.filter.on{border-color:var(--line);color:var(--accent)}
+.grid{display:grid;gap:16px;margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.card{display:flex;gap:14px;padding:14px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line-soft);box-shadow:var(--shadow);transition:.25s;cursor:pointer}
+.card:hover{border-color:var(--line);transform:translateY(-3px)}
+.thumb{flex:none;width:112px;height:112px;border-radius:16px;background:radial-gradient(circle at 50% 40%,var(--card2),transparent 75%),var(--card2);display:grid;place-items:center;font-size:44px;overflow:hidden;position:relative}
+.thumb model-viewer{width:100%;height:100%;--poster-color:transparent;background:transparent}
+.card .info{flex:1;min-width:0;display:flex;flex-direction:column}
+.card h3{font-family:var(--sans);font-size:15.5px;font-weight:700}
+.card p{font-size:12.5px;color:var(--muted);margin:3px 0 8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.price{color:var(--accent);font-weight:800;font-size:16px}
+.meta{font-size:11px;color:var(--muted);margin-top:auto;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.veg{width:14px;height:14px;border:1.5px solid #2e9e4f;display:inline-grid;place-items:center;border-radius:3px}
+.veg::after{content:"";width:6px;height:6px;border-radius:50%;background:#2e9e4f}
+.veg.nv{border-color:#c0392b}.veg.nv::after{background:#c0392b}
+.pill{padding:2px 8px;border-radius:99px;border:1px solid var(--line-soft);font-size:10px;font-weight:600;color:var(--accent)}
+.empty{padding:50px 0;text-align:center;color:var(--muted)}
+
+/* detail */
+.detail{display:grid;gap:26px;grid-template-columns:1fr}
+@media(min-width:860px){.detail{grid-template-columns:1.1fr 1fr;align-items:center}}
+.stage{border-radius:28px;border:1.5px solid var(--line);background:radial-gradient(circle at 50% 45%,var(--card2),var(--card));aspect-ratio:1/1;max-height:560px;width:100%;position:relative;overflow:hidden;box-shadow:var(--shadow);display:grid;place-items:center}
+.stage model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent}
+.stage .hint{position:absolute;bottom:14px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);pointer-events:none}
+.stage .big{font-size:110px}
+.detail h2{font-size:clamp(28px,5vw,40px);margin:6px 0}
+.detail .price{font-size:30px;margin:14px 0}
+.qty{display:inline-flex;align-items:center;gap:14px;border:1.5px solid var(--line-soft);border-radius:14px;padding:6px 10px}
+.qty button{width:30px;height:30px;border-radius:50%;font-size:18px;font-weight:700;color:var(--accent)}
+.qty b{min-width:20px;text-align:center}
+.stack{display:grid;gap:12px;margin-top:18px}
+.ing-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.ing-list span{padding:6px 12px;border-radius:99px;background:var(--card2);border:1px solid var(--line-soft);font-size:12px}
+.ux-note{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* AR */
+.ar{position:fixed;inset:0;z-index:60;background:#000;display:none;flex-direction:column}
+.ar.open{display:flex}
+.ar video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ar .fallback{position:absolute;inset:0;background:radial-gradient(circle at 50% 60%,#4a2a14,#1a110d 70%)}
+.ar model-viewer{position:absolute;inset:0;width:100%;height:100%;background:transparent;--poster-color:transparent}
+.ar svg.lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ar svg.lines line{stroke:var(--gold);stroke-width:1.5;vector-effect:non-scaling-stroke;opacity:.9}
+.callout{position:absolute;transform:translate(-50%,-50%);padding:7px 14px;border-radius:12px;background:var(--gold);color:#1a1204;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;box-shadow:0 4px 14px rgba(0,0,0,.4);white-space:nowrap}
+.callout.sel{outline:3px solid #fff}
+.ar .bar-top{position:relative;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:16px;color:#fff;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.ar .bar-top .icon-btn{background:rgba(0,0,0,.5);border-color:rgba(255,255,255,.35);color:#fff}
+.ar .info-card{position:absolute;z-index:3;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));max-width:560px;margin:0 auto;background:rgba(10,8,7,.88);border:1.5px solid var(--gold);color:#f4ecdc;border-radius:18px;padding:14px 16px;backdrop-filter:blur(8px)}
+.ar .info-card b{display:block;font-size:15px}
+.ar .info-card small{color:#c8bda9;font-size:12.5px}
+.ar .info-card .row{display:flex;gap:10px;margin-top:12px}
+.ar .info-card .btn{padding:11px 14px;font-size:11px;flex:1}
+
+/* cart */
+.cart-wrap{max-width:640px;margin:0 auto}
+.line{display:flex;gap:14px;align-items:center;padding:14px;border-radius:var(--radius);background:var(--card);border:1px solid var(--line-soft);margin-top:12px}
+.line .thumb{width:64px;height:64px;font-size:28px}
+.line .grow{flex:1}
+.line b{display:block}
+.sum{display:flex;justify-content:space-between;font-size:18px;font-weight:800;margin:20px 4px}
+textarea,input.f,select.f{width:100%;padding:13px 14px;border-radius:14px;background:var(--card);border:1.5px solid var(--line-soft);color:var(--text);font:inherit;font-size:14px;outline:0;margin-top:8px}
+textarea:focus,input.f:focus{border-color:var(--line)}
+.floatbar{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:12px 18px calc(12px + env(safe-area-inset-bottom));display:none}
+.floatbar.show{display:block}
+.floatbar .btn{max-width:560px;margin:0 auto;display:flex;justify-content:space-between;padding:16px 22px}
+
+/* staff */
+.orders{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:18px}
+.ticket{padding:18px;border-radius:var(--radius);background:var(--card);border:1.5px solid var(--line-soft)}
+.ticket.new{border-color:var(--line)}
+.ticket h4{font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.ticket li{list-style:none;margin-top:10px}
+.ticket li b{color:var(--accent)}
+.status{float:right;font-size:10px;padding:3px 10px;border-radius:99px;background:var(--line-soft);color:var(--accent);font-weight:700;text-transform:uppercase}
+
+/* modal / toast */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.6);display:none;place-items:center;padding:20px}
+.modal.open{display:grid}
+.sheet{width:100%;max-width:420px;background:var(--card);border:1.5px solid var(--line);border-radius:24px;padding:24px;box-shadow:var(--shadow)}
+.sheet h3{font-size:24px;color:var(--accent);margin-bottom:6px}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;margin-top:10px;border-radius:12px;background:var(--card2);font-size:14px}
+.stars{display:flex;gap:6px;font-size:30px;margin:10px 0;cursor:pointer}
+.stars span{opacity:.3;transition:.15s}.stars span.on{opacity:1}
+#toast{position:fixed;left:50%;bottom:90px;transform:translate(-50%,20px);background:var(--accent);color:var(--accent-ink);padding:12px 20px;border-radius:14px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:100;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:20px 0 40px}
+@media(max-width:520px){.card{padding:12px}.thumb{width:96px;height:96px}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <button class="back" id="back">‹ Back</button>
+  <div class="brand">QR Dining Experience<small>AR-powered digital restaurant menu</small></div>
+  <div class="sp"></div>
+  <button class="icon-btn" id="cartBtn" aria-label="Order" title="Your order">🧾</button>
+  <button class="icon-btn" id="themeBtn" aria-label="Toggle theme" title="Light / Dark">🌙</button>
+</div></header>
+
+<main class="wrap">
+  <!-- 1 Landing -->
+  <section class="screen" id="s-home">
+    <div class="landing">
+      <div class="hero">
+        <div class="eyebrow">Table <span class="tbl">14</span> • <span id="greet">Good evening</span></div>
+        <h1 style="margin-top:10px">THE GOLDEN OAK</h1>
+        <p class="intro">Scan. Browse. Preview the dish in 3D. Place it on the real table with AR. Order when you're ready.</p>
+      </div>
+      <div class="opts">
+        <button class="opt" data-go="#/menu"><b class="n">01</b><span class="t">View Menu</span><i>›</i></button>
+        <button class="opt" id="oReviews"><b class="n">02</b><span class="t">Google Reviews</span><i>↗</i></button>
+        <button class="opt" data-go="#/feedback"><b class="n">03</b><span class="t">Feedback</span><i>›</i></button>
+        <button class="opt" id="oSocial"><b class="n">04</b><span class="t">YouTube / Instagram</span><i>↗</i></button>
+        <button class="opt" id="oWifi"><b class="n">05</b><span class="t">Connect to WiFi</span><i>›</i></button>
+      </div>
+      <div class="rule"><b style="color:var(--accent)">One clear action at a time.</b> The full food menu lives one tap away, like a premium concierge.</div>
+      <a class="staff-link" href="#/staff">Staff dashboard</a>
+    </div>
+  </section>
+
+  <!-- 2 Menu -->
+  <section class="screen" id="s-menu">
+    <div class="menu-head">
+      <div><div class="eyebrow">4D Smart Menu</div><h2 class="serif">THE GOLDEN OAK</h2><div class="muted" style="font-size:13px">Good evening • Table <span class="tbl">14</span></div></div>
+    </div>
+    <div class="chips" id="chips"></div>
+    <div class="tools">
+      <label class="search">🔍<input id="q" placeholder="Search dishes…" autocomplete="off"></label>
+      <button class="filter" id="fVeg">🟢 Veg only</button>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- 3 Detail -->
+  <section class="screen" id="s-dish"><div class="detail" id="dishBox"></div></section>
+
+  <!-- Cart -->
+  <section class="screen" id="s-cart"><div class="cart-wrap">
+    <div class="eyebrow">Table <span class="tbl">14</span></div><h2 class="serif" style="font-size:34px">Your Order</h2>
+    <div id="cartLines"></div>
+    <div id="cartFoot"></div>
+  </div></section>
+
+  <!-- Feedback -->
+  <section class="screen" id="s-feedback"><div class="cart-wrap">
+    <div class="eyebrow">We'd love to hear</div><h2 class="serif" style="font-size:34px">Feedback</h2>
+    <p class="muted" style="margin-top:6px">How was your evening at The Golden Oak?</p>
+    <div class="stars" id="stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+    <input class="f" id="fbName" placeholder="Your name (optional)">
+    <textarea class="f" id="fbText" rows="4" placeholder="Tell us more…"></textarea>
+    <button class="btn primary block" id="fbSend" style="margin-top:16px">Send feedback</button>
+  </div></section>
+
+  <!-- Staff -->
+  <section class="screen" id="s-staff">
+    <div class="menu-head"><div><div class="eyebrow">Staff dashboard</div><h2 class="serif" style="font-size:34px">Live Orders</h2></div>
+    <button class="btn ghost" id="clearOrders">Clear all</button></div>
+    <div class="orders" id="orders"></div>
+  </section>
+</main>
+<footer>Luxury concept demo • The Golden Oak</footer>
+
+<div class="floatbar" id="floatbar"><button class="btn primary" data-go="#/cart"><span id="fbCount">0 items</span><span id="fbTotal">₹0</span></button></div>
+
+<!-- AR overlay -->
+<div class="ar" id="ar">
+  <video id="arVideo" autoplay playsinline muted></video><div class="fallback" id="arFallback"></div>
+  <model-viewer id="arModel" camera-controls auto-rotate shadow-intensity="1" interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto"></model-viewer>
+  <svg class="lines" id="arLines" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+  <div id="arCallouts"></div>
+  <div class="bar-top"><span>Live camera view</span><button class="icon-btn" id="arClose" aria-label="Close">✕</button></div>
+  <div class="info-card"><b id="arTitle">Tap a label</b><small id="arDesc">Tap an ingredient label to learn more.</small>
+    <div class="row"><button class="btn ghost" id="arNative">📱 Place in real space</button><button class="btn primary" id="arAdd">Add to order</button></div></div>
+</div>
+
+<!-- Modals -->
+<div class="modal" id="wifiModal"><div class="sheet"><h3>WiFi</h3><div class="muted" style="font-size:13px">Connect and enjoy your meal.</div>
+  <div class="kv"><span>Network</span><b id="wSsid"></b></div>
+  <div class="kv"><span>Password</span><b id="wPass"></b></div>
+  <div style="display:flex;gap:10px;margin-top:18px"><button class="btn primary" style="flex:1" id="wCopy">Copy password</button><button class="btn ghost" id="wClose">Close</button></div></div></div>
+<div id="toast"></div>
+
+<script>
+/* ======================= CONFIG — edit these ======================= */
+const CONFIG = {
+  restaurant: "The Golden Oak",
+  googleReviews: "https://www.google.com/maps",          // ← your Google reviews link
+  youtube: "https://www.youtube.com/",                    // ← your YouTube
+  instagram: "https://www.instagram.com/",                // ← your Instagram
+  wifiName: "GoldenOak_Guest", wifiPass: "welcome2024",
+};
+
+/* ======================= MENU DATA =======================
+   3D MODELS: put your files in the /models folder:
+     models/biryani.glb   models/maggie.glb   models/pasta.glb   models/pizza.glb
+   (change the "model" path below if you rename them)           */
+const CATS = ["Starters","Main","Burgers","Salads","Dessert"];
+const DISHES = [
+  {id:"burrata",cat:"Starters",name:"Burrata with Prosciutto",price:360,veg:false,emoji:"🧀",model:null,
+   desc:"Creamy burrata, thin-sliced prosciutto, basil oil and toasted sourdough.",
+   ing:[["Burrata","Soft, creamy fresh cheese"],["Prosciutto","Cured ham, delicate and salty"],["Tomato","Fresh tomato • mild acidity"],["Basil","Fragrant herb oil"]]},
+  {id:"dumplings",cat:"Starters",name:"Gourmet Truffle Dumplings",price:320,veg:true,emoji:"🥟",model:null,
+   desc:"Hand-folded dumplings with wild mushroom and black truffle.",
+   ing:[["Truffle","Earthy aroma"],["Mushroom","Savoury umami filling"],["Chives","Fresh bite"],["Soy glaze","Sweet-salty finish"]]},
+  {id:"maggie",cat:"Starters",name:"Masala Maggie",price:180,veg:true,emoji:"🍜",model:"models/maggie.glb",
+   desc:"Everyone's comfort bowl — spiced masala noodles with veggies and a butter finish.",
+   ing:[["Noodles","Springy, slurp-worthy"],["Onion","Adds sharpness and aroma"],["Tomato","Fresh tomato • mild acidity"],["Masala","House spice blend"]]},
+  {id:"lobster",cat:"Main",name:"Lobster Thermidor",price:780,veg:false,emoji:"🦞",model:null,
+   desc:"Classic cognac cream lobster gratinated with aged cheese.",
+   ing:[["Lobster","Sweet, tender tail meat"],["Cream","Rich cognac sauce"],["Cheese","Golden gratin crust"],["Herbs","Tarragon & parsley"]]},
+  {id:"biryani",cat:"Main",name:"Hyderabadi Chicken Biryani",price:420,veg:false,emoji:"🍛",model:"models/biryani.glb",
+   desc:"Dum-cooked basmati layered with marinated chicken, saffron and fried onion.",
+   ing:[["Chicken","Main protein • visible portion"],["Basmati","Long fragrant grains"],["Onion","Crisp birista, sharp & sweet"],["Saffron","Golden aroma"]]},
+  {id:"pasta",cat:"Main",name:"Creamy Alfredo Pasta",price:340,veg:true,emoji:"🍝",model:"models/pasta.glb",
+   desc:"Silky parmesan cream sauce tossed with fresh pasta and garlic.",
+   ing:[["Pasta","Al dente, freshly cooked"],["Parmesan","Nutty aged cheese"],["Garlic","Soft warm aroma"],["Cream","Smooth, rich sauce"]]},
+  {id:"pizza",cat:"Main",name:"Wood-fired Margherita Pizza",price:380,veg:true,emoji:"🍕",model:"models/pizza.glb",
+   desc:"Slow-proved dough, San Marzano tomato, fior di latte and fresh basil.",
+   ing:[["Tomato","Fresh tomato • mild acidity"],["Mozzarella","Melted, milky & stretchy"],["Basil","Fresh herbal note"],["Crust","Blistered wood-fired base"]]},
+  {id:"burger",cat:"Burgers",name:"Oak Smash Burger",price:350,veg:false,emoji:"🍔",model:null,
+   desc:"Double smashed patty, aged cheddar, caramelised onion, house sauce.",
+   ing:[["Patty","Juicy smashed beef"],["Cheddar","Aged & melty"],["Onion","Caramelised sweetness"],["Bun","Toasted brioche"]]},
+  {id:"salad",cat:"Salads",name:"Grilled Chicken Caesar",price:290,veg:false,emoji:"🥗",model:null,
+   desc:"Crisp romaine, grilled chicken, parmesan shavings and croutons.",
+   ing:[["Chicken","Main protein • visible portion"],["Cucumber","Fresh, crisp slices"],["Tomato","Fresh tomato • mild acidity"],["Onion","Adds sharpness and aroma"]]},
+  {id:"dessert",cat:"Dessert",name:"Molten Chocolate Lava",price:260,veg:true,emoji:"🍫",model:null,
+   desc:"Warm dark-chocolate cake with a liquid centre and vanilla gelato.",
+   ing:[["Chocolate","70% dark cacao"],["Gelato","Madagascar vanilla"],["Berries","Tart finishing touch"],["Cocoa","Dusting of bitter cocoa"]]},
+];
+
+/* ======================= STATE / HELPERS ======================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const store={get:(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};
+const params=new URLSearchParams(location.search);
+const TABLE=params.get("table")||store.get("table",14); store.set("table",TABLE);
+$$(".tbl").forEach(e=>e.textContent=TABLE);
+let cart=store.get("cart",{}); let cat="Starters", vegOnly=false, query="", curDish=null, qty=1;
+const rupee=n=>"₹"+n.toLocaleString("en-IN");
+const dish=id=>DISHES.find(d=>d.id===id);
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove("show"),2200)}
+const h=new Date().getHours(); $("#greet").textContent=h<12?"Good morning":h<17?"Good afternoon":"Good evening";
+
+/* theme */
+function setTheme(t){document.documentElement.dataset.theme=t;store.set("theme",t);$("#themeBtn").textContent=t==="dark"?"☀️":"🌙";document.querySelector('meta[name=theme-color]').content=t==="dark"?"#0d0a08":"#fbf6ec"}
+setTheme(store.get("theme",matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"));
+$("#themeBtn").onclick=()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark");
+
+/* ======================= MENU ======================= */
+function modelThumb(d){
+  if(!d.model) return `<span>${d.emoji}</span>`;
+  return `<model-viewer src="${d.model}" loading="lazy" auto-rotate rotation-per-second="25deg" disable-zoom interaction-prompt="none" camera-orbit="30deg 70deg auto" shadow-intensity="0.6" onerror="this.outerHTML='${d.emoji}'"></model-viewer>`;
+}
+function renderChips(){
+  $("#chips").innerHTML=CATS.map(c=>`<button class="chip ${c===cat?"on":""}" data-c="${c}">${c}</button>`).join("");
+  $$("#chips .chip").forEach(b=>b.onclick=()=>{cat=b.dataset.c;renderChips();renderGrid()});
+}
+function renderGrid(){
+  const q=query.trim().toLowerCase();
+  const list=DISHES.filter(d=>(q?true:d.cat===cat)&&(!vegOnly||d.veg)&&(!q||(d.name+d.desc+d.cat).toLowerCase().includes(q)));
+  $("#grid").innerHTML=list.length?list.map(d=>`
+    <article class="card" data-id="${d.id}">
+      <div class="thumb">${modelThumb(d)}</div>
+      <div class="info">
+        <h3>${d.name}</h3><p>${d.desc}</p>
+        <div class="price">${rupee(d.price)}</div>
+        <div class="meta"><span class="veg ${d.veg?"":"nv"}"></span>${d.model?'<span class="pill">3D view</span><span class="pill">AR table view</span>':'<span class="pill" style="opacity:.6">3D coming soon</span>'}</div>
+      </div></article>`).join(""):`<div class="empty">No dishes found.</div>`;
+  $$("#grid .card").forEach(c=>c.onclick=()=>location.hash="#/dish/"+c.dataset.id);
+}
+$("#q").oninput=e=>{query=e.target.value;renderGrid()};
+$("#fVeg").onclick=e=>{vegOnly=!vegOnly;e.currentTarget.classList.toggle("on",vegOnly);renderGrid()};
+
+/* ======================= DISH DETAIL ======================= */
+function renderDish(id){
+  const d=curDish=dish(id); if(!d){location.hash="#/menu";return}
+  qty=1;
+  $("#dishBox").innerHTML=`
+    <div class="stage">${d.model
+      ?`<model-viewer src="${d.model}" camera-controls auto-rotate touch-action="pan-y" shadow-intensity="1.1" exposure="1.05" interaction-prompt="auto" ar ar-modes="webxr scene-viewer quick-look" ar-scale="auto" onerror="this.outerHTML='<div class=big>${d.emoji}</div>'"></model-viewer><div class="hint">3D DISH • drag to rotate • pinch to zoom</div>`
+      :`<div class="big">${d.emoji}</div><div class="hint">3D model coming soon</div>`}</div>
+    <div>
+      <div class="eyebrow">${d.cat}</div>
+      <h2 class="serif">${d.name}</h2>
+      <div class="meta" style="margin:6px 0"><span class="veg ${d.veg?"":"nv"}"></span><span class="muted">${d.veg?"Vegetarian":"Non-vegetarian"}</span></div>
+      <p class="muted">${d.desc}</p>
+      <div class="ing-list">${d.ing.map(i=>`<span>${i[0]}</span>`).join("")}</div>
+      <div class="price">${rupee(d.price)}</div>
+      <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <div class="qty"><button id="qm">−</button><b id="qv">1</b><button id="qp">+</button></div>
+      </div>
+      <div class="stack">
+        <button class="btn primary block" id="addBtn">Add to order</button>
+        <button class="btn ghost block" id="arBtn" ${d.model?"":"disabled"}>View on your table • AR</button>
+        <div class="ux-note">${d.model?"Opens your camera and places the dish with ingredient labels.":"AR preview isn't available for this dish yet."}</div>
+      </div>
+    </div>`;
+  $("#qm").onclick=()=>{qty=Math.max(1,qty-1);$("#qv").textContent=qty};
+  $("#qp").onclick=()=>{qty++;$("#qv").textContent=qty};
+  $("#addBtn").onclick=()=>{addToCart(d.id,qty);toast(`${qty} × ${d.name} added`)};
+  $("#arBtn").onclick=()=>openAR(d);
+}
+
+/* ======================= AR TABLE VIEW ======================= */
+const SPOTS=[[20,24],[80,30],[17,68],[82,74]];
+let stream=null;
+async function openAR(d){
+  const ar=$("#ar"); ar.classList.add("open"); document.body.style.overflow="hidden";
+  $("#arModel").src=d.model;
+  $("#arLines").innerHTML=d.ing.map((_,i)=>`<line x1="${SPOTS[i][0]}" y1="${SPOTS[i][1]}" x2="50" y2="50"/>`).join("");
+  $("#arCallouts").innerHTML=d.ing.map((it,i)=>`<button class="callout" data-i="${i}" style="left:${SPOTS[i][0]}%;top:${SPOTS[i][1]}%">${it[0]}</button>`).join("");
+  const sel=i=>{$$("#arCallouts .callout").forEach((c,j)=>c.classList.toggle("sel",i===j));$("#arTitle").textContent=d.ing[i][0];$("#arDesc").textContent=d.ing[i][1]};
+  $$("#arCallouts .callout").forEach(c=>c.onclick=()=>sel(+c.dataset.i)); sel(0);
+  $("#arAdd").onclick=()=>{addToCart(d.id,1);toast(`${d.name} added`)};
+  $("#arNative").onclick=async()=>{const m=$("#arModel"); if(m.canActivateAR) m.activateAR(); else toast("Real-space AR works on supported phones (Android Chrome / iPhone Safari).")};
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:"environment"}},audio:false});
+    $("#arVideo").srcObject=stream; $("#arFallback").style.display="none";
+  }catch{ $("#arFallback").style.display="block"; toast("Camera unavailable — showing simulated table view"); }
+}
+function closeAR(){ $("#ar").classList.remove("open"); document.body.style.overflow=""; if(stream){stream.getTracks().forEach(t=>t.stop());stream=null} $("#arVideo").srcObject=null }
+$("#arClose").onclick=closeAR;
+
+/* ======================= CART / ORDERS ======================= */
+function addToCart(id,n){cart[id]=(cart[id]||0)+n;store.set("cart",cart);updateBar()}
+function cartTotals(){let c=0,t=0;for(const id in cart){c+=cart[id];t+=cart[id]*dish(id).price}return{c,t}}
+function updateBar(){const{c,t}=cartTotals();$("#floatbar").classList.toggle("show",c>0&&!/#\/(cart|staff)/.test(location.hash));$("#fbCount").textContent=`View order • ${c} item${c>1?"s":""}`;$("#fbTotal").textContent=rupee(t)}
+function renderCart(){
+  const ids=Object.keys(cart);
+  if(!ids.length){$("#cartLines").innerHTML=`<div class="empty">Your order is empty.<br><br><button class="btn primary" data-go="#/menu">Browse menu</button></div>`;$("#cartFoot").innerHTML="";bindGo();return}
+  $("#cartLines").innerHTML=ids.map(id=>{const d=dish(id);return `<div class="line"><div class="thumb">${d.emoji}</div><div class="grow"><b>${d.name}</b><span class="muted">${rupee(d.price)} each</span></div>
+    <div class="qty"><button data-m="${id}">−</button><b>${cart[id]}</b><button data-p="${id}">+</button></div></div>`}).join("");
+  const{t}=cartTotals();
+  $("#cartFoot").innerHTML=`<textarea class="f" id="note" rows="2" placeholder="Note for the kitchen (e.g. no onion)"></textarea>
+    <div class="sum"><span>Total • Table ${TABLE}</span><span class="price">${rupee(t)}</span></div>
+    <button class="btn primary block" id="place">Place order</button>`;
+  $$("[data-m]").forEach(b=>b.onclick=()=>{const id=b.dataset.m;if(--cart[id]<=0)delete cart[id];store.set("cart",cart);renderCart();updateBar()});
+  $$("[data-p]").forEach(b=>b.onclick=()=>{cart[b.dataset.p]++;store.set("cart",cart);renderCart();updateBar()});
+  $("#place").onclick=()=>{
+    const orders=store.get("orders",[]); const id=1048+orders.length;
+    orders.unshift({id,table:TABLE,items:Object.entries(cart).map(([k,q])=>({id:k,q})),note:$("#note").value.trim(),status:"new",time:Date.now()});
+    store.set("orders",orders); cart={}; store.set("cart",cart); updateBar();
+    toast(`Order #${id} sent to the kitchen ✔`); location.hash="#/home";
+  };
+}
+function renderStaff(){
+  const orders=store.get("orders",[]);
+  const next={new:["Accept order","accepted"],accepted:["Mark preparing","preparing"],preparing:["Mark served","served"]};
+  $("#orders").innerHTML=orders.length?orders.map(o=>`<div class="ticket ${o.status==="new"?"new":""}">
+    <span class="status">${o.status}</span><h4>New order • #${o.id} • Table ${o.table}</h4>
+    <ul>${o.items.map(i=>{const d=dish(i.id);return `<li><b>${i.q} × ${d.name}</b><br><span class="muted" style="font-size:12px">${rupee(d.price)} each</span></li>`}).join("")}</ul>
+    ${o.note?`<p class="muted" style="margin-top:10px;font-size:13px">Note: ${o.note}</p>`:""}
+    ${next[o.status]?`<button class="btn primary block" style="margin-top:14px" data-o="${o.id}">${next[o.status][0]}</button>`:`<p style="margin-top:12px;color:var(--accent);font-weight:700">✔ Served</p>`}</div>`).join(""):`<div class="empty">No orders yet. Place one from the menu.</div>`;
+  $$("[data-o]").forEach(b=>b.onclick=()=>{const os=store.get("orders",[]);const o=os.find(x=>x.id==b.dataset.o);o.status=next[o.status][1];store.set("orders",os);renderStaff()});
+}
+$("#clearOrders").onclick=()=>{store.set("orders",[]);renderStaff()};
+window.addEventListener("storage",()=>{if(location.hash==="#/staff")renderStaff()});
+$("#cartBtn").onclick=()=>location.hash="#/cart";
+
+/* ======================= LANDING ACTIONS ======================= */
+$("#oReviews").onclick=()=>window.open(CONFIG.googleReviews,"_blank");
+$("#oSocial").onclick=()=>window.open(CONFIG.instagram,"_blank");
+$("#oWifi").onclick=()=>{$("#wSsid").textContent=CONFIG.wifiName;$("#wPass").textContent=CONFIG.wifiPass;$("#wifiModal").classList.add("open")};
+$("#wClose").onclick=()=>$("#wifiModal").classList.remove("open");
+$("#wifiModal").onclick=e=>{if(e.target.id==="wifiModal")e.target.classList.remove("open")};
+$("#wCopy").onclick=()=>{navigator.clipboard?.writeText(CONFIG.wifiPass);toast("Password copied")};
+let rating=0; $$("#stars span").forEach((s,i)=>s.onclick=()=>{rating=i+1;$$("#stars span").forEach((x,j)=>x.classList.toggle("on",j<rating))});
+$("#fbSend").onclick=()=>{const f=store.get("feedback",[]);f.push({rating,name:$("#fbName").value,text:$("#fbText").value,t:Date.now()});store.set("feedback",f);$("#fbText").value="";toast("Thank you for your feedback 💛");location.hash="#/home"};
+function bindGo(){$$("[data-go]").forEach(b=>b.onclick=()=>location.hash=b.dataset.go)}
+
+/* ======================= ROUTER ======================= */
+function route(){
+  closeAR();
+  const hash=location.hash||"#/home"; const [,page,arg]=hash.split("/");
+  $$(".screen").forEach(s=>s.classList.remove("active"));
+  const map={home:"s-home",menu:"s-menu",dish:"s-dish",cart:"s-cart",feedback:"s-feedback",staff:"s-staff"};
+  const id=map[page]||"s-home"; $("#"+id).classList.add("active");
+  $("#back").classList.toggle("show",id!=="s-home");
+  if(id==="s-menu"){renderChips();renderGrid()}
+  if(id==="s-dish")renderDish(arg);
+  if(id==="s-cart")renderCart();
+  if(id==="s-staff")renderStaff();
+  updateBar(); window.scrollTo(0,0);
+}
+$("#back").onclick=()=>{ if(location.hash.startsWith("#/dish")) location.hash="#/menu"; else location.hash="#/home" };
+window.addEventListener("hashchange",route);
+bindGo(); route();
+</script>
+</body>
+</html>
